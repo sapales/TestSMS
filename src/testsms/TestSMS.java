@@ -5,6 +5,7 @@
 package testsms;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -19,14 +20,25 @@ public class TestSMS {
        
         ArrayList<EmailBean> eb = new ArrayList<EmailBean>();
         ArrayList<TestThread> tt = new ArrayList<TestThread>();
-        
+
+        // Cargamos el ArrayList con un Bean por cada e-mail a enviar
         eb=CargaArrayEmailBean(eb);
-                
-        tt.add(new TestThread("1", 1000));
-        tt.add(new TestThread("2", 2000));
-                
-        tt.get(0).start();
-        tt.get(1).start();
+        
+        // Recorremos el ArrayList generando un hilo (Thread) por cada Bean
+        Iterator i = eb.iterator();
+        while(i.hasNext()){
+            // Creamos el hilo
+            tt.add(new TestThread("1", 1000));
+            // Lo arrancamos
+            tt.get(0).start();
+            System.out.println("Elemento del arreglo: " + i.next());
+        }
+
+//        tt.add(new TestThread("1", 1000));
+//        tt.add(new TestThread("2", 2000));
+//                
+//        tt.get(0).start();
+//        tt.get(1).start();
     }
     
     private static ArrayList<EmailBean> CargaArrayEmailBean(ArrayList<EmailBean> eb){
