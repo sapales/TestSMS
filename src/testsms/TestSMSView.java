@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class TestSMSView extends javax.swing.JFrame {
 
     ArrayList<EmailBean> eb = new ArrayList<EmailBean>();
-    ArrayList<EnviarEmail> tt = new ArrayList<EnviarEmail>();
+    ArrayList<EnviarEmail> em = new ArrayList<EnviarEmail>();
     
     /**
      * Creates new form TestSMSView
@@ -139,9 +139,9 @@ public class TestSMSView extends javax.swing.JFrame {
         while(it.hasNext()){
             // Creamos el hilo
             EmailBean x = (EmailBean)it.next();
-            tt.add(new EnviarEmail(x));
+            em.add(new EnviarEmail(x));
             // Lo arrancamos
-            tt.get(hilo).start();
+            em.get(hilo).start();
             hilo++;
         }
         
@@ -149,18 +149,16 @@ public class TestSMSView extends javax.swing.JFrame {
     
     private void DesactivarEnvios(){
         
-        int hilo=0;
+        int hilos=0;
         
         // Recorremos el ArrayList generando un hilo (Thread) por cada Bean
-        Iterator it = tt.iterator();
-        tt.
-        while(it.hasNext()){
+        hilos = em.size();
+        for (int hilo=0; hilo<em.size(); hilo++){
             // paramos el hilo
-            tt.next();
-            tt.get(hilo).parar();
-            hilo++;
+            em.get(hilo).parar();
         }
-
+        em.clear();
+        eb.clear();
     }
 
     private static ArrayList<EmailBean> CargaArrayEmailBean(ArrayList<EmailBean> eb){
