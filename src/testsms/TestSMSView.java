@@ -153,10 +153,10 @@ public class TestSMSView extends javax.swing.JFrame {
         
         // Recorremos el ArrayList generando un hilo (Thread) por cada Bean
         Iterator it = tt.iterator();
+        tt.
         while(it.hasNext()){
-            // Cancelamos el hilo
-            EmailBean x = (EmailBean)it.next();
-            // Lo paramos
+            // paramos el hilo
+            tt.next();
             tt.get(hilo).parar();
             hilo++;
         }
