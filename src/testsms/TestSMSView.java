@@ -4,12 +4,18 @@
  */
 package testsms;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
  * @author m0072
  */
 public class TestSMSView extends javax.swing.JFrame {
 
+    ArrayList<EmailBean> eb = new ArrayList<EmailBean>();
+    ArrayList<EnviarEmail> tt = new ArrayList<EnviarEmail>();
+    
     /**
      * Creates new form TestSMSView
      */
@@ -72,8 +78,10 @@ public class TestSMSView extends javax.swing.JFrame {
 
         if (jtbtnActivacion.isSelected()) {
             jtbtnActivacion.setText("Desactivar");
+            ActivarEnvios();
         } else {
             jtbtnActivacion.setText("Activar");
+            DesactivarEnvios();
         }        
     }//GEN-LAST:event_jtbtnActivacionActionPerformed
 
@@ -118,6 +126,69 @@ public class TestSMSView extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void ActivarEnvios(){
+        
+        int hilo=0;
+
+        // Cargamos el ArrayList con un Bean por cada e-mail a enviar
+        eb=CargaArrayEmailBean(eb);
+        
+        // Recorremos el ArrayList generando un hilo (Thread) por cada Bean
+        Iterator it = eb.iterator();
+        while(it.hasNext()){
+            // Creamos el hilo
+            EmailBean x = (EmailBean)it.next();
+            tt.add(new EnviarEmail(x));
+            // Lo arrancamos
+            tt.get(hilo).start();
+            hilo++;
+        }
+        
+    }
+    
+    private void DesactivarEnvios(){
+        
+        int hilo=0;
+        
+        // Recorremos el ArrayList generando un hilo (Thread) por cada Bean
+        Iterator it = tt.iterator();
+        while(it.hasNext()){
+            // Cancelamos el hilo
+            EmailBean x = (EmailBean)it.next();
+            // Lo paramos
+            tt.get(hilo).parar();
+            hilo++;
+        }
+
+    }
+
+    private static ArrayList<EmailBean> CargaArrayEmailBean(ArrayList<EmailBean> eb){
+        
+        EmailBean temp= new EmailBean();
+        temp.id="1";
+        temp.to="santiago.pastor@aviva.es";
+        temp.from="santiago.pastor@aviva.es";
+        temp.asunto="asunto1";
+        temp.cuerpo="cuerpo1";
+        temp.pausa=5000;
+        
+        eb.add(temp);
+
+        temp= new EmailBean();
+        temp.id="2";
+        temp.to="santiago.pastor@aviva.es";
+        temp.from="santiago.pastor@aviva.es";
+        temp.asunto="asunto2";
+        temp.cuerpo="cuerpo2";
+        temp.pausa=8000;
+        
+        eb.add(temp);
+        
+        return eb;
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jlblBanner;
     private javax.swing.JToggleButton jtbtnActivacion;

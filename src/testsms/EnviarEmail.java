@@ -22,6 +22,7 @@ public class EnviarEmail extends Thread{
     String asunto = "";
     String cuerpo = "";
     long pausa    = 1000;
+    boolean enviar=true;
     
     public EnviarEmail(EmailBean eb){
        
@@ -34,8 +35,14 @@ public class EnviarEmail extends Thread{
        
    }
    
+   public void parar(){
+       
+    enviar=false;
+
+   }
+    
    public void run(){
-      
+       
       // Get system properties
       Properties properties = System.getProperties();
 
@@ -44,7 +51,7 @@ public class EnviarEmail extends Thread{
 
       try{
          
-         while(!Thread.interrupted() && true){
+         while(!Thread.interrupted() && enviar){
 
             // Get the default Session object.
             Session session = Session.getDefaultInstance(properties);
