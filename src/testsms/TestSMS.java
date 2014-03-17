@@ -18,27 +18,24 @@ public class TestSMS {
      */
     public static void main(String[] args) {
        
+        int hilo=0;
         ArrayList<EmailBean> eb = new ArrayList<EmailBean>();
-        ArrayList<TestThread> tt = new ArrayList<TestThread>();
+        ArrayList<EnviarEmail> tt = new ArrayList<EnviarEmail>();
 
         // Cargamos el ArrayList con un Bean por cada e-mail a enviar
         eb=CargaArrayEmailBean(eb);
         
         // Recorremos el ArrayList generando un hilo (Thread) por cada Bean
-        Iterator i = eb.iterator();
-        while(i.hasNext()){
+        Iterator it = eb.iterator();
+        while(it.hasNext()){
             // Creamos el hilo
-            tt.add(new TestThread("1", 1000));
+            EmailBean x = (EmailBean)it.next();
+            tt.add(new EnviarEmail(x));
             // Lo arrancamos
-            tt.get(0).start();
-            System.out.println("Elemento del arreglo: " + i.next());
+            tt.get(hilo).start();
+            hilo++;
         }
-
-//        tt.add(new TestThread("1", 1000));
-//        tt.add(new TestThread("2", 2000));
-//                
-//        tt.get(0).start();
-//        tt.get(1).start();
+        
     }
     
     private static ArrayList<EmailBean> CargaArrayEmailBean(ArrayList<EmailBean> eb){
@@ -49,7 +46,7 @@ public class TestSMS {
         temp.from="santiago.pastor@aviva.es";
         temp.asunto="asunto1";
         temp.cuerpo="cuerpo1";
-        temp.pausa=1000;
+        temp.pausa=60000;
         
         eb.add(temp);
 
@@ -59,7 +56,7 @@ public class TestSMS {
         temp.from="santiago.pastor@aviva.es";
         temp.asunto="asunto2";
         temp.cuerpo="cuerpo2";
-        temp.pausa=2000;
+        temp.pausa=90000;
         
         eb.add(temp);
         
